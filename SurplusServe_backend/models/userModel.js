@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema({
-    clerkUSerId: {
+    clerkUserId: {
         type: String,
         required: true,
         unique: true
@@ -13,6 +13,11 @@ const userSchema = new Schema({
     },
     name: {
         type: String,
+        required: true
+    },
+    role : {
+        type: String,
+        enum: ['donor', 'recipient'],
         required: true
     },
     createdAt: {
