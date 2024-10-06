@@ -1,10 +1,24 @@
+import express from "express";
 import { Router } from "express";
-import {registerRecipient, loginRecipient} from "../controllers/recipientController.js";
+import auth from "../middleware/auth.js";
+import Recipient from "../models/Recipient.js";
 
 const router = Router();
 
-router.post('/register', registerRecipient);
+router.get('/profile', auth, async (req, res) => {
+    try {
+        const recipients = await Recipient.findOne({ user: req.user.id }).populate('user', ['email']);
 
-router.post('/login', loginRecipient);
+        if (!recipients) {
+            return res.status(400).json({ msg: 'No recipients found' });
+        }
+
+        res.json(recipients);
+    } catch (error) {
+        console.error(err.message);
+        next(err);   
+    }
+});
+
 
 export default router;
