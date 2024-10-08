@@ -1,5 +1,5 @@
-import User from '../models/userModel.js';
-import Donation from '../models/donationModel.js';
+import User from '../models/User.js';
+import Donation from '../models/Donation.js';
 
 // Helper function for consistent error responses
 const handleError = (res, error, message = 'Server error') => {
@@ -112,196 +112,55 @@ export const loginDonor = async (req, res) => {
     }
 };
 
-export const createDonation = async (req, res) => {
-    const { foodType, quantity, expirationDate, location } = req.body;
-    
-    try {
-        // Input validation
-        if (!foodType || !quantity || !expirationDate || !location) {
-            return res.status(400).json({ 
-                success: false,
-                message: 'Please provide all required fields' 
-            });
-        }
-
-        // Validate expiration date
-        const expDate = new Date(expirationDate);
-        if (expDate < new Date()) {
-            return res.status(400).json({ 
-                success: false,
-                message: 'Expiration date cannot be in the past' 
-            });
-        }
-
-        // Process images if they exist
-        const images = req.files ? req.files.map(file => file.path) : [];
-
-        // Calculate meals provided (you can adjust the formula)
-        const mealsProvided = Math.floor(quantity * 2); // Example calculation
-        const foodWastedReduced = quantity; // In kg or appropriate unit
-
-        const donation = new Donation({
-            foodType,
-            quantity,
-            expirationDate: expDate,
-            images,
-            location,
-            mealsProvided,
-            foodWastedReduced,
-            status: 'available',
-            createdAt: new Date(),
-            claimedBy: req.user.email,
-        });
-
-        await donation.save();
-
-        // Update user's donation count
-        await User.findByIdAndUpdate(req.user.email, {
-            $inc: { totalDonations: 1 }
-        });
-
-        res.status(201).json({ 
-            success: true,
-            message: 'Donation created successfully', 
-            data: donation 
-        });
-    } catch (error) {
-        return handleError(res, error, 'Error creating donation');
-    }
-};
-
-export const getDonationsSummary = async (req, res) => {
+export const getDonorDashboard = async (req, res) => {
     try {
         const donorId = req.user.id;
+        const donations = await Donation.find({ donor: donorId });
 
-        // Get donations with pagination
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
 
-        // Get all donations for statistics
-        const allDonations = await Donation.find({ donorId });
+        const totalDonations = donations.length;
+        const totalQuantity = donations.reduce((sum, donation) => sum + donation.quantity, 0);
+        const recentDonations = donations.slice(0, 5);
 
-        // Get paginated donations
-        const donations = await Donation.find({ donorId })
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit);
-
-        // Calculate statistics
-        const stats = {
-            totalDonations: allDonations.length,
-            totalMealsProvided: allDonations.reduce((acc, curr) => acc + (curr.mealsProvided || 0), 0),
-            totalFoodWastedReduced: allDonations.reduce((acc, curr) => acc + (curr.foodWastedReduced || 0), 0),
-            donationsByStatus: {
-                available: allDonations.filter(d => d.status === 'available').length,
-                claimed: allDonations.filter(d => d.status === 'claimed').length,
-                completed: allDonations.filter(d => d.status === 'completed').length
-            }
-        };
-
-        res.status(200).json({
-            success: true,
-            data: {
-                stats,
-                donations,
-                pagination: {
-                    currentPage: page,
-                    totalPages: Math.ceil(allDonations.length / limit),
-                    totalItems: allDonations.length,
-                    itemsPerPage: limit
-                }
-            }
+        res.json({
+            totalDonations,
+            totalQuantity,
+            recentDonations
         });
-    } catch (error) {
-        return handleError(res, error, 'Error fetching donations summary');
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json('Server Error');
     }
 };
 
-// New function to get a specific donation
-export const getDonation = async (req, res) => {
-    try {
-        const donation = await Donation.findOne({
-            _id: req.params.donationId,
-            donorId: req.user.id
+export const createDonation = async (req, res) => {
+    try{
+        const { foodType, quantity, expirationDate, pickupLocation } = req.body;
+        const donorId = req.user.id;
+
+        // Log received data
+        console.log('Request body:', req.body);
+        console.log('Donor ID:', donorId);
+
+        const images =  req.files ? req.files.map(file => file.path) : [];
+
+        const newDonation = new Donation({
+            donor: donorId,
+            foodType,
+            quantity,
+            expirationDate,
+            images,
+            pickupLocation
         });
 
-        if (!donation) {
-            return res.status(404).json({ 
-                success: false,
-                message: 'Donation not found' 
-            });
-        }
+        await newDonation.save();
 
-        res.status(200).json({ 
-            success: true,
-            data: donation 
+        res.status(201).json({
+            msg: 'Donation created successfully',
+            donation: newDonation
         });
-    } catch (error) {
-        return handleError(res, error, 'Error fetching donation');
-    }
-};
-
-// New function to update a donation
-export const updateDonation = async (req, res) => {
-    try {
-        const { foodType, quantity, expirationDate, location, status } = req.body;
-        
-        const donation = await Donation.findOne({
-            _id: req.params.donationId,
-            donorId: req.user.id
-        });
-
-        if (!donation) {
-            return res.status(404).json({ 
-                success: false,
-                message: 'Donation not found' 
-            });
-        }
-
-        // Only allow updates if donation is not claimed
-        if (donation.status === 'claimed' || donation.status === 'completed') {
-            return res.status(400).json({ 
-                success: false,
-                message: 'Cannot update claimed or completed donations' 
-            });
-        }
-
-        // Update fields if provided
-        if (foodType) donation.foodType = foodType;
-        if (quantity) donation.quantity = quantity;
-        if (expirationDate) donation.expirationDate = new Date(expirationDate);
-        if (location) donation.location = location;
-        if (status) donation.status = status;
-
-        // Add new images if provided
-        if (req.files && req.files.length > 0) {
-            donation.images = [...donation.images, ...req.files.map(file => file.path)];
-        }
-
-        await donation.save();
-
-        res.status(200).json({ 
-            success: true,
-            message: 'Donation updated successfully',
-            data: donation 
-        });
-    } catch (error) {
-        return handleError(res, error, 'Error updating donation');
-    }
-};
-
-export const getDonationStats = async (req, res) => {
-    try {
-        const stats = await Donation.getStatistics(req.user.id);
-        res.status(200).json({
-            success: true,
-            data: stats[0] // First element of aggregate result
-        });
-    } catch (error) {
-        res.status(500).json({ 
-            success: false, 
-            message: error.message 
-        });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json('Server Error');
     }
 };

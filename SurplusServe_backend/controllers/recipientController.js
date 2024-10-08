@@ -1,4 +1,5 @@
 import User from '../models/userModel.js';
+import Donation from '../models/Donation.js';
 
 export const registerRecipient  = async (req, res) => {
     const { email, name, role, clerkUserId } = req.body;
@@ -37,5 +38,17 @@ export const loginRecipient = async (req, res) => {
         res.status(200).json({ message: 'Login successful', user });
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+};
+
+export const getDashboard = async (req, res) => {
+    try {
+        const availableDonations = await Donation.find({ status: 'available' }).populate('donor','organization').sort({ createdAt: -1 });
+
+        res.json({ availableDonations });
+
+    } catch (error) {
+        console.error("Error fetching available donations :", error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
