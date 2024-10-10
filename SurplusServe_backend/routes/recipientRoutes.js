@@ -2,6 +2,7 @@ import express from "express";
 import { Router } from "express";
 import auth from "../middleware/auth.js";
 import Recipient from "../models/Recipient.js";
+import { registerRecipient, loginRecipient, getDashboard, claimDonation, searchDonations} from "../controllers/recipientController.js";
 
 const router = Router();
 
@@ -19,6 +20,10 @@ router.get('/profile', auth, async (req, res) => {
         next(err);   
     }
 });
+
+router.get('/dashboard', auth, getDashboard);
+router.post('/claim/:donationId', auth, claimDonation);
+router.post('/search', auth, searchDonations);
 
 
 export default router;
