@@ -115,7 +115,7 @@ export const loginDonor = async (req, res) => {
 export const getDonorDashboard = async (req, res) => {
     try {
         const donorId = req.user.id;
-        const donations = await Donation.find({ donor: donorId });
+        const donations = await Donation.find({ donorId });
 
 
         const totalDonations = donations.length;
@@ -145,12 +145,13 @@ export const createDonation = async (req, res) => {
         const images =  req.files ? req.files.map(file => file.path) : [];
 
         const newDonation = new Donation({
-            donor: donorId,
+            donorId,
             foodType,
             quantity,
             expirationDate,
             images,
-            pickupLocation
+            pickupLocation,
+            // status: 'available'
         });
 
         await newDonation.save();

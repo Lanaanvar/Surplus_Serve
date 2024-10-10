@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const donationSchema = new mongoose.Schema({
-    donor : {
+    donorId : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
@@ -28,7 +28,15 @@ const donationSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    status: {
+        type: String,
+        enum: ['available', 'claimed', 'expired'],
+        default: 'available',
+        required: true
     }
-});
+}, { timestamps: true });
+
+donationSchema.index({ status: 1 });
 
 export default mongoose.model('Donation', donationSchema);
