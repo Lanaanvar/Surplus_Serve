@@ -172,7 +172,7 @@ export const searchDonations = async (req, res) => {
             query.quantity = { $gte: parseInt(quantity) };
         }
 
-        const matchingDonations = await Donation.find(query).populate('donor','organization').sort({ createdAt: -1 });
+        const matchingDonations = await Donation.find(query).populate('donorId','organization').sort({ createdAt: -1 });
 
         res.json({ matchingDonations });
     } catch (error) {
