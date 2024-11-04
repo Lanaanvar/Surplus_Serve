@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.2",
+    "@radix-ui/react-slot": "^1.1.0",
+    "bootstrap": "^5.3.3",
+    "framer-motion": "^11.11.9",
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.27.0"
+  }
+}

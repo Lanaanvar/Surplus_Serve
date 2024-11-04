@@ -1,0 +1,187 @@
+/* Main container for the dashboard */
+  .p-6 {
+    padding: 1.5rem;
+    background-color: #f7fafc; /* Light background color */
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .max-w-7xl {
+    max-width: 90rem;
+  }
+  
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Header section */
+  .text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  
+  .text-gray-900 {
+    color: #1a202c;
+  }
+  
+  /* Button styles */
+  .flex {
+    display: flex;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+    margin-left: 0.5rem;
+  }
+  
+  .h-4, .w-4 {
+    height: 1rem;
+    width: 1rem;
+  }
+  
+  .submit-button {
+    background: linear-gradient(to right, #2563eb, #3b82f6);
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.375rem; /* Rounded corners */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .submit-button:hover {
+      background: linear-gradient(to right, #1d4ed8, #3b82f6);
+  }
+
+  .submit-button:focus {
+      outline: none;
+      transform: scale(1.05);
+  }
+  
+  /* Cards */
+  .grid {
+    display: grid;
+  }
+  
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  
+  .gap-4 {
+    gap: 1rem;
+  }
+
+  
+  /* Card layout */
+  .card-container {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Evenly distribute space between cards */
+    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+    gap: 1rem; /* Space between cards */
+  }
+  /* Individual Card Styles */
+  .card {
+    flex: 1; /* Allow cards to grow equally */
+    min-width: 200px; /* Set a minimum width to ensure they are not too small */
+    height: 150px; /* Set a fixed height for uniformity */
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute content evenly */
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600; /* Slightly bolder */
+    color: #4b7467;
+  }
+
+  .text-2xl {
+      font-size: 1.75rem; /* Increased size for emphasis */
+      font-weight: 800; /* Make it bolder */
+  }
+  
+  .card-content {
+    padding-top: 0.5rem;
+  }
+  
+  .text-sm {
+    font-size: 0.875rem;
+  }
+  
+  .font-medium {
+    font-weight: 500;
+  }
+  
+  .text-2xl {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .text-xs {
+    font-size: 0.75rem;
+  }
+  
+  .text-muted-foreground {
+    color: #718096;
+  }
+  
+  /* Chart */
+  .chart-container {
+    background-color: #fff; /* White background for contrast */
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+  .h-\[300px\] {
+    height: 300px;
+  }
+  
+  .responsive-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Responsiveness */
+  @media (max-width: 640px) {
+    .grid-cols-1 {
+        grid-template-columns: 1fr; /* One column on very small screens */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .md\:grid-cols-2 {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .lg\:grid-cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  
