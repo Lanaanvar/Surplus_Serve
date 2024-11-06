@@ -1,230 +1,198 @@
 /* RecipientDash.css */
-.recipient-dashboard {
-  min-height: 100vh;
-  background-color: #f9fafb;
-}
-
-.dashboard-header {
-  background: linear-gradient(to right, #4CAF50, #66BB6A);
-  height: 8rem;
-}
-
-.header-content {
-  max-width: 80rem;
-  margin: 0 auto;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  padding: 0 1.5rem 1.5rem;
-}
-
-.header-content h1 {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: white;
-}
 
 .dashboard-container {
+  padding: 1.5rem;
   max-width: 80rem;
   margin: 0 auto;
-  padding: 0 1.5rem;
-  margin-top: -2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .dashboard-content {
+  width: 100%;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.search-section {
-  background-color: white;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.dashboard-header {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-@media (min-width: 768px) {
-  .search-section {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
+.search-controls {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 600px;
+  justify-content: center;
 }
 
 .search-container {
   position: relative;
   flex: 1;
+  max-width: 400px;
 }
 
 .search-icon {
   position: absolute;
-  left: 0.75rem;
+  left: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 1.25rem;
-  height: 1.25rem;
+  height: 1rem;
+  width: 1rem;
   color: #9ca3af;
 }
 
-.search-container input {
+.search-input {
   width: 100%;
-  padding: 0.625rem 0.75rem 0.625rem 2.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
   border: 1px solid #e5e7eb;
   border-radius: 0.375rem;
-  outline: none;
-}
-
-.search-container input:focus {
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  focus-ring: 2;
+  focus-ring-color: #22c55e;
 }
 
 .location-button {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #f0fdf4;
-  color: #15803d;
-  padding: 0.625rem 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #22c55e;
+  color: white;
   border-radius: 0.375rem;
   transition: background-color 0.2s;
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .location-button {
-    width: auto;
-  }
 }
 
 .location-button:hover {
-  background-color: #dcfce7;
-}
-
-.location-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-right: 0.5rem;
+  background-color: #16a34a;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
+  justify-items: center;
 }
 
-@media (min-width: 768px) {
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.stat-box {
+.stat-card {
   background-color: white;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-top: 4px solid #4CAF50;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
 }
 
 .stat-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-}
-
-.stat-header h3 {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #4b5563;
+  gap: 0.5rem;
 }
 
 .stat-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #4CAF50;
+  height: 1rem;
+  width: 1rem;
+  color: #9ca3af;
 }
 
 .stat-value {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #111827;
-  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
 }
 
-.stat-subtitle {
-  font-size: 0.875rem;
+.stat-description {
+  font-size: 0.75rem;
   color: #6b7280;
-  margin-top: 0.25rem;
 }
 
-.donations-list {
+.donations-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  align-items: center;
 }
 
-.donations-list h2 {
+.donations-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111827;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .donation-card {
   background-color: white;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #f3f4f6;
-  transition: box-shadow 0.2s;
+  width: 100%;
+  max-width: 800px;
 }
 
-.donation-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.donation-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-.donation-content h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #111827;
+.donation-location {
+  font-weight: 500;
 }
 
-.items-text {
-  color: #4b5563;
-  margin-top: 0.25rem;
+.donation-details {
+  font-size: 0.875rem;
+  color: #6b7280;
 }
 
-.donation-meta {
+.donation-metadata {
   display: flex;
   gap: 1rem;
-  margin-top: 0.5rem;
-  color: #6b7280;
   font-size: 0.875rem;
+  color: #6b7280;
 }
 
-.meta-icon {
-  width: 1rem;
+.metadata-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.metadata-icon {
   height: 1rem;
-  color: #4CAF50;
-  margin-right: 0.25rem;
+  width: 1rem;
 }
 
 .reserve-button {
-  background-color: #4CAF50;
+  background-color: #22c55e;
   color: white;
-  padding: 0.625rem 1.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.375rem;
-  font-weight: 500;
   transition: background-color 0.2s;
 }
 
 .reserve-button:hover {
-  background-color: #43A047;
+  background-color: #16a34a;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .dashboard-header {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .search-controls {
+    width: auto;
+  }
 }

@@ -3,8 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { MapPin, Clock, ShoppingBag, Check } from 'lucide-react';
 import { ReceiptGenerator } from './RecieptGenerator';
 import axios from 'axios';
-// import jsPDF from 'jspdf';
-import { formatDate } from '../utils';
+import '../styles/Reservation.css';
 
 const ReservationPage = () => {
   const [donation, setDonation] = useState(null);
@@ -64,8 +63,8 @@ const ReservationPage = () => {
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to claim donation');
-    }finally {
-      setLoading(false); // Ensure loading state is set to false
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,41 +85,41 @@ const ReservationPage = () => {
 
   if (success && receipt) {
     return (
-      <div className="max-w-2xl mx-auto p-6">
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                <Check className="text-green-500" />
+      <div className="reservation-container">
+        <div className="reservation-card">
+          <div className="reservation-content">
+            <div className="success-header">
+              <h2 className="success-title">
+                <Check className="success-icon" />
                 Donation Claimed Successfully
               </h2>
-              <span className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+              <span className="success-badge">
                 Confirmed
               </span>
             </div>
 
-            <div className="space-y-6">
+            <div className="details-container">
               {/* Donation Details Section */}
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="font-medium mb-4 text-lg">Donation Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <ShoppingBag className="w-5 h-5 text-gray-500" />
+              <div className="details-section">
+                <h3 className="section-title">Donation Details</h3>
+                <div className="details-grid">
+                  <div className="details-column">
+                    <div className="detail-item">
+                      <ShoppingBag className="detail-icon" />
                       <span><strong>Food Type:</strong> {donation?.foodType}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-gray-500" />
+                    <div className="detail-item">
+                      <Clock className="detail-icon" />
                       <span><strong>Quantity:</strong> {donation?.quantity} servings</span>
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-gray-500" />
+                  <div className="details-column">
+                    <div className="detail-item">
+                      <MapPin className="detail-icon" />
                       <span><strong>Pickup Location:</strong> {donation?.pickupLocation}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-gray-500" />
+                    <div className="detail-item">
+                      <Clock className="detail-icon" />
                       <span><strong>Created:</strong> {new Date(donation?.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
@@ -128,58 +127,48 @@ const ReservationPage = () => {
               </div>
 
               {/* Receipt Details Section */}
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="font-medium mb-4 text-lg">Receipt Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <p><strong>Receipt ID:</strong> <span className="font-mono">{receipt.receiptId}</span></p>
-                    <p><strong>Donor Organization:</strong> {receipt.donor}</p>
-                    <p><strong>Recipient:</strong> {receipt.recipient}</p>
+              <div className="details-section">
+                <h3 className="section-title">Receipt Details</h3>
+                <div className="details-grid">
+                  <div className="details-column">
+                    <p className="receipt-detail"><strong>Receipt ID:</strong> <span className="mono-text">{receipt.receiptId}</span></p>
+                    <p className="receipt-detail"><strong>Donor Organization:</strong> {receipt.donor}</p>
+                    <p className="receipt-detail"><strong>Recipient:</strong> {receipt.recipient}</p>
                   </div>
-                  <div className="space-y-2">
-                    <p><strong>Item Name:</strong> {receipt.itemName}</p>
-                    <p><strong>Quantity:</strong> {receipt.quantity} servings</p>
-                    <p><strong>Date:</strong> {new Date(receipt.date).toLocaleDateString()}</p>
+                  <div className="details-column">
+                    <p className="receipt-detail"><strong>Item Name:</strong> {receipt.itemName}</p>
+                    <p className="receipt-detail"><strong>Quantity:</strong> {receipt.quantity} servings</p>
+                    <p className="receipt-detail"><strong>Date:</strong> {new Date(receipt.date).toLocaleDateString()}</p>
                   </div>
                 </div>
               </div>
 
               {/* QR Code Section */}
               {receipt.qrCode && (
-                <div className="flex flex-col items-center bg-gray-50 p-6 rounded-lg">
-                  <h3 className="font-medium mb-4 text-lg">Pickup QR Code</h3>
-                  <div className="bg-white p-3 rounded-lg shadow-sm">
+                <div className="qr-section">
+                  <h3 className="section-title">Pickup QR Code</h3>
+                  <div className="qr-container">
                     <img 
                       src={receipt.qrCode} 
                       alt="Pickup QR Code" 
-                      className="w-48 h-48"
+                      className="qr-code"
                     />
                   </div>
-                  <p className="text-sm text-gray-600 mt-4 text-center">
+                  <p className="qr-instruction">
                     Show this QR code when picking up your donation
                   </p>
                 </div>
               )}
 
               {/* Action Buttons */}
-              <div className="flex flex-col gap-3">
-                <button 
-                  onClick={() => window.print()}
-                  // className="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200 transition-colors"
-                  style={{ backgroundColor: 'gray', color: 'white' }} 
-                >
+              <div className="action-buttons">
+                <button onClick={() => window.print()} className="print-button">
                   Print Receipt
                 </button>
-                <button 
-                  onClick={handleDownloadPDF}
-                  className="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors"
-                >
+                <button onClick={handleDownloadPDF} className="download-button">
                   Download PDF
                 </button>
-                <button 
-                  className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
-                  onClick={() => navigate('/dashboard')}
-                >
+                <button onClick={() => navigate('/recipient-dashboard')} className="return-button">
                   Return to Dashboard
                 </button>
               </div>
@@ -191,35 +180,34 @@ const ReservationPage = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      {/* Loading and error handling UI */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="p-6">
-          <h2 className="text-2xl font-bold mb-4">Confirm Donation Claim</h2>
+    <div className="reservation-container">
+      <div className="reservation-card">
+        <div className="reservation-content">
+          <h2 className="confirmation-title">Confirm Donation Claim</h2>
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-4">
+            <div className="error-message">
               {error}
             </div>
           )}
           {donation && (
-            <div className="space-y-4 mb-6">
-              <div className="flex items-center gap-2">
-                <ShoppingBag className="w-5 h-5 text-gray-500" />
-                <span className="font-medium">{donation.foodType}</span>
+            <div className="donation-details">
+              <div className="detail-item">
+                <ShoppingBag className="detail-icon" />
+                <span className="detail-text">{donation.foodType}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-gray-500" />
-                <span>{donation.pickupLocation}</span>
+              <div className="detail-item">
+                <MapPin className="detail-icon" />
+                <span className="detail-text">{donation.pickupLocation}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-gray-500" />
-                <span>Quantity: {donation.quantity} servings</span>
+              <div className="detail-item">
+                <Clock className="detail-icon" />
+                <span className="detail-text">Quantity: {donation.quantity} servings</span>
               </div>
             </div>
           )}
           <button 
             onClick={handleClaim}
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+            className="claim-button"
             disabled={loading}
           >
             {loading ? 'Claiming...' : 'Claim Donation'}
