@@ -41,7 +41,7 @@ const NewDonation = ({ onClose }) => {
       const token = localStorage.getItem('token'); // Replace with your token retrieval logic
 
       try {
-        const response = await axios.post('http://localhost:5001/api/donor/donate', payload, {
+        const response = await axios.post('http://http://34.47.212.191//api/donor/donate', payload, {
           headers: {
             'x-auth-token': token, // Use the same header name as in your middleware
             'Content-Type': 'application/json'
