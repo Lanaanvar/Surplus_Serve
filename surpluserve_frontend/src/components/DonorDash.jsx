@@ -149,8 +149,8 @@ const DonorDashboard = () => {
                 <h3 className="text-sm font-medium">Recipients Helped</h3>
                 <Users className="h-4 w-4 text-gray-400" />
               </div>
-              <div className="text-2xl font-bold">128</div>
-              <p className="text-xs text-gray-500">+12 new this month</p>
+              <div className="text-2xl font-bold">6</div>
+              <p className="text-xs text-gray-500">+6 new this month</p>
             </div>
           </motion.div>
 
