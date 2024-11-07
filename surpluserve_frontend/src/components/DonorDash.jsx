@@ -24,7 +24,7 @@ const DonorDashboard = () => {
   const fetchDonorData = async () => {
     try {
       const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
-      const res = await axios.get('http://localhost:5001/api/donor/dashboard', {
+      const res = await axios.get('/api/donor/dashboard', {
           headers: {
               'x-auth-token': token // Use 'x-auth-token' here
           }
@@ -74,7 +74,7 @@ const DonorDashboard = () => {
   // };
 
     try {
-      await axios.post('http://localhost:5001/api/donor/donate', formData);
+      await axios.post('/api/donor/donate', formData);
       fetchDonorData();
       setShowDonationForm(false);
     } catch (error) {
