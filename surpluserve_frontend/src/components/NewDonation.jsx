@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Package, MapPin, Calendar, Clock, ArrowLeft } from 'lucide-react';
 import '../styles/NewDonation.css';
-import API_URL from '../config';
 
 const NewDonation = ({ onClose }) => {
   const [step, setStep] = useState(1);
@@ -42,7 +41,7 @@ const NewDonation = ({ onClose }) => {
       const token = localStorage.getItem('token'); // Replace with your token retrieval logic
 
       try {
-        const response = await axios.post('${API_URL}/api/donor/donate', payload, {
+        const response = await axios.post('/api/donor/donate', payload, {
           headers: {
             'x-auth-token': token, // Use the same header name as in your middleware
             'Content-Type': 'application/json'

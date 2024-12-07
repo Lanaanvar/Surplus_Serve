@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/Login.css';
-import API_URL from '../config';
 
 const LandPage = () => {
   return (

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate from React
 import { motion } from 'framer-motion';
 import axios from 'axios'; // Import axios for API calls
 import '../styles/Auth.css';
-import API_URL from '../config';
 
 const DonorAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -21,7 +20,7 @@ const DonorAuth = () => {
     e.preventDefault();
 
     // Define the endpoint based on the action
-    const endpoint = isLogin ? '${API_URL}/api/auth/login' : '${API_URL}/api/auth/register';
+    const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
 
     const data = isLogin
       ? { email, password }  // Data for login
