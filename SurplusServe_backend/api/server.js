@@ -89,11 +89,18 @@ app.use('/api/auth', router);
 app.use('/api/donor', donorRoutes);
 app.use('/api/recipient', recipientRoutes);
 
+// Default route to verify backend is running
+app.get('/', (req, res) => {
+    res.send('Backend is running!');
+  });
+  
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
+
 
 // Export the app and wrap it for serverless deployment
 export default app;
