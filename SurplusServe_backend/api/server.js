@@ -103,4 +103,4 @@ app.use((err, req, res, next) => {
 
 // Export the app and wrap it for serverless deployment
 export default app;
-// export const handler = serverless(app); // Important for Vercel
+export const handler = serverless(app); // Important for Vercel
