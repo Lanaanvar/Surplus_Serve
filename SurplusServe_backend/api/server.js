@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import apiRoutes from './routes/apiRoutes.js';
 // import router from './routes/authRoutes.js';
 // import donorRoutes from './routes/donorRoutes.js';
 // import recipientRoutes from './routes/recipientRoutes.js';
@@ -40,10 +41,10 @@ mongoose
 
   
 
-// Define routes
-app.use('/api/auth', router);
-app.use('/api/donor', donorRoutes);
-app.use('/api/recipient', recipientRoutes);
+// // Define routes
+// app.use('/api/auth', router);
+// app.use('/api/donor', donorRoutes);
+// app.use('/api/recipient', recipientRoutes);
 
 // Default route to verify backend is running
 app.get('/', (req, res) => {
