@@ -12,7 +12,7 @@ const app = express();
 
 // Update CORS settings to allow requests from your server IP
 app.use(cors({
-    origin: 'http://34.47.212.191', // Allow requests from your server IP
+    origin: 'http://localhost:5001', // Allow requests from your server IP
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Add any methods you need
     credentials: true, // Allow cookies if needed
 }));
