@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ShoppingBag, Clock, MapPin, Calendar, Search } from 'lucide-react';
 import axios from 'axios';
 import '../styles/RecipientDash.css'
+import API_URL from '../config';
 
 const RecipientDashboard = () => {
   const [availableDonations, setAvailableDonations] = useState([]);
@@ -12,7 +13,7 @@ const RecipientDashboard = () => {
   const fetchDonations = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('/api/recipient/dashboard', {
+      const response = await axios.get('${API_URL}/api/recipient/dashboard', {
         headers: {
           'x-auth-token': token,
         },

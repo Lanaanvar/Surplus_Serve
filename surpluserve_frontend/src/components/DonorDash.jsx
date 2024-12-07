@@ -14,6 +14,7 @@ import {
 import NewDonation from './NewDonation';
 import '../styles/DonorDash.css';
 import { formatDate } from '../utils';
+import API_URL from '../config';
 
 const DonorDashboard = () => {
   const [showDonationForm, setShowDonationForm] = useState(false);
@@ -24,7 +25,7 @@ const DonorDashboard = () => {
   const fetchDonorData = async () => {
     try {
       const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
-      const res = await axios.get('/api/donor/dashboard', {
+      const res = await axios.get('${API_URL}/api/donor/dashboard', {
           headers: {
               'x-auth-token': token // Use 'x-auth-token' here
           }
