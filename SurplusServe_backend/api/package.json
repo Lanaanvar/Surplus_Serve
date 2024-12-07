@@ -2,7 +2,7 @@
   "name": "surplsserve_backend_api",
   "version": "1.0.0",
   "description": "backend_api",
-  "main": "server.js",
+  "main": "api/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

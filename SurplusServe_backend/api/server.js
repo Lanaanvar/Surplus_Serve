@@ -12,7 +12,7 @@ const app = express();
 
 // Update CORS settings to allow requests from your server IP
 app.use(cors({
-    origin: 'http://localhost:5001', // Allow requests from your server IP
+    origin: process.env.CLIENT_URL || 'http://localhost:3000', // Allow requests from your server IP
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Add any methods you need
     credentials: true, // Allow cookies if needed
 }));
@@ -38,8 +38,10 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-// Start the server
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// // Start the server
+// const PORT = process.env.PORT || 5001;
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });
+
+export default app;
