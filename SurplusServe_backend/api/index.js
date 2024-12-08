@@ -1,4 +1,4 @@
-import app from "./server"
+const app = require('./server');
 
 // Export the app as a serverless function
-export default (req, res) => app(req, res);
+module.exports = (req, res) => app(req, res);
