@@ -1,10 +1,10 @@
-import User from "../models/User.js";
-import Donor from "../models/Donor.js";
-import Recipient from "../models/Recipient.js";
-import jwt from "jsonwebtoken";
+const User = require("../models/User.js");
+const Donor = require("../models/Donor.js");
+const Recipient = require("../models/Recipient.js");
+const jwt = require("jsonwebtoken");
 
-export const register = async (req, res) => {
-    try{
+const register = async (req, res, next) => {
+    try {
         const { email, password, role, name, organization, phone } = req.body;
 
         if (!email || !password || !role || !name) {
@@ -64,7 +64,7 @@ export const register = async (req, res) => {
     }
 };
 
-export const login = async (req, res, next) => {
+const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
@@ -102,4 +102,9 @@ export const login = async (req, res, next) => {
         console.error(err.message);
         next(err);
     }
+};
+
+module.exports = {
+    register,
+    login
 };

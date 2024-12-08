@@ -1,5 +1,5 @@
-import User from '../models/User.js';
-import Donation from '../models/Donation.js';
+const User = require('../models/User.js');
+const Donation = require('../models/Donation.js');
 
 // Helper function for consistent error responses
 const handleError = (res, error, message = 'Server error') => {
@@ -11,7 +11,7 @@ const handleError = (res, error, message = 'Server error') => {
     });
 };
 
-export const registerDonor = async (req, res) => {
+const registerDonor = async (req, res) => {
     const { email, name } = req.body;
 
     try {
@@ -81,7 +81,7 @@ export const registerDonor = async (req, res) => {
     }
 };
 
-export const loginDonor = async (req, res) => {
+const loginDonor = async (req, res) => {
     const { email } = req.body;
 
     try {
@@ -112,11 +112,10 @@ export const loginDonor = async (req, res) => {
     }
 };
 
-export const getDonorDashboard = async (req, res) => {
+const getDonorDashboard = async (req, res) => {
     try {
         const donorId = req.user.id;
         const donations = await Donation.find({ donorId });
-
 
         const totalDonations = donations.length;
         const totalQuantity = donations.reduce((sum, donation) => sum + donation.quantity, 0);
@@ -142,7 +141,7 @@ export const getDonorDashboard = async (req, res) => {
     }
 };
 
-export const createDonation = async (req, res) => {
+const createDonation = async (req, res) => {
     try{
         const { foodType, quantity, expirationDate, pickupLocation } = req.body;
         const donorId = req.user.id;
@@ -173,4 +172,11 @@ export const createDonation = async (req, res) => {
         console.error(err.message);
         res.status(500).json('Server Error');
     }
+};
+
+module.exports = {
+    registerDonor,
+    loginDonor,
+    getDonorDashboard,
+    createDonation
 };

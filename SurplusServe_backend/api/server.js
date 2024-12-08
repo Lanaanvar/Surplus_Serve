@@ -1,12 +1,9 @@
-import express from 'express';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import apiRoutes from './routes/apiRoutes.js';
-// import router from './routes/authRoutes.js';
-// import donorRoutes from './routes/donorRoutes.js';
-// import recipientRoutes from './routes/recipientRoutes.js';
-import serverless from 'serverless-http'; // Required for serverless environments
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const apiRoutes = require('./routes/apiRoutes.js');
+const serverless = require('serverless-http');
 
 dotenv.config();
 
@@ -39,13 +36,6 @@ mongoose
     process.exit(1);
   });
 
-  
-
-// // Define routes
-// app.use('/api/auth', router);
-// app.use('/api/donor', donorRoutes);
-// app.use('/api/recipient', recipientRoutes);
-
 // Default route to verify backend is running
 app.get('/', (req, res) => {
     res.send('Backend is running!');
@@ -57,7 +47,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-
 // Export the app and wrap it for serverless deployment
-export default app;
-export const handler = serverless(app); // Important for Vercel
+module.exports = app;
+module.exports.handler = serverless(app); // Important for Vercel

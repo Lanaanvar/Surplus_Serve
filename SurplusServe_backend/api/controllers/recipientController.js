@@ -1,9 +1,8 @@
-import User from '../models/User.js';
-import Donation from '../models/Donation.js';
-import qr from 'qrcode';
-import { v4 as uuidv4 } from 'uuid';
-import mongoose from 'mongoose';
-
+const User = require('../models/User.js');
+const Donation = require('../models/Donation.js');
+const qr = require('qrcode');
+const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
 
 const handleError = (res, error, message = 'Server error') => {
     console.error('Error:', error);
@@ -13,7 +12,8 @@ const handleError = (res, error, message = 'Server error') => {
         error: error.message 
     });
 };
-export const registerRecipient  = async (req, res) => {
+
+const registerRecipient = async (req, res) => {
     const { email, name} = req.body;
 
     try {
@@ -83,7 +83,7 @@ export const registerRecipient  = async (req, res) => {
     }
 };
 
-export const loginRecipient = async (req, res) => {
+const loginRecipient = async (req, res) => {
     const { email } = req.body;
 
     try {
@@ -114,7 +114,7 @@ export const loginRecipient = async (req, res) => {
     }
 };
 
-export const getDashboard = async (req, res) => {
+const getDashboard = async (req, res) => {
     try {
         console.log('Fetching available donations...');
         const now = new Date();
@@ -136,9 +136,8 @@ export const getDashboard = async (req, res) => {
     }
 };
 
-export const claimDonation = async (req, res) => {
-    try{
-
+const claimDonation = async (req, res) => {
+    try {
         console.log('Attempting to claim donation with ID:', req.params.id);
         
         // Validate MongoDB ObjectId format
@@ -150,7 +149,6 @@ export const claimDonation = async (req, res) => {
             });
         }
 
-        // const donation = await Donation.findById(req.params.id);
         const donation = await Donation.findById(req.params.id)
             .populate('donorId', 'organization');
 
@@ -183,7 +181,7 @@ export const claimDonation = async (req, res) => {
         donation.recipient = req.user.id;
         await donation.save();
 
-        //Genereate reciept details
+        //Generate receipt details
         const receiptId = uuidv4();
         const receiptData = {
             receiptId,
@@ -193,27 +191,12 @@ export const claimDonation = async (req, res) => {
             donor: donation.donorId.organization,
             recipient: req.user.name,
             pickupLocation: donation.pickupLocation,
-            // date: donation.createdAt
             date: new Date(),
             claimDate: new Date(),
             expiryDate: donation.expiryDate,
             status: 'CLAIMED'
         };           
 
-        //Generate QR code
-        // const qrCode = await qr.toDataURL(JSON.stringify(recieptData));
-
-        // //combine reciept data and qr code
-        // const reciept = {
-        //     ...recieptData,
-        //     qrCode: qrCode
-        // };
-
-        // res.json({ 
-        //     message: 'Donation claimed successfully',
-        //     donation,
-        //     reciept
-        // });
         try {
             // Generate QR code with essential pickup details
             const qrCodeData = {
@@ -251,7 +234,7 @@ export const claimDonation = async (req, res) => {
     }
 };
 
-export const getDonationById = async (req, res) => {
+const getDonationById = async (req, res) => {
     try {
         // Validate MongoDB ObjectId format
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -282,7 +265,7 @@ export const getDonationById = async (req, res) => {
     }
 };
 
-export const searchDonations = async (req, res) => {
+const searchDonations = async (req, res) => {
     try {
         const {foodType, quantity} = req.body;
 
@@ -305,4 +288,13 @@ export const searchDonations = async (req, res) => {
         console.error("Error searching donations :", error);
         res.status(500).json({ message: 'Server error' });
     }
+};
+
+module.exports = {
+    registerRecipient,
+    loginRecipient,
+    getDashboard,
+    claimDonation,
+    getDonationById,
+    searchDonations
 };

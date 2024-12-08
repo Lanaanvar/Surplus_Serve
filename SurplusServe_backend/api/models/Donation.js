@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const donationSchema = new mongoose.Schema({
     donorId : {
@@ -39,4 +39,4 @@ const donationSchema = new mongoose.Schema({
 
 donationSchema.index({ status: 1 });
 
-export default mongoose.model('Donation', donationSchema);
+module.exports = mongoose.model('Donation', donationSchema);

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const donorSchema = new mongoose.Schema({
     user: {
@@ -22,4 +22,4 @@ const donorSchema = new mongoose.Schema({
 
 const Donor = mongoose.model('Donor', donorSchema);
 
-export default Donor;
+module.exports = Donor;
