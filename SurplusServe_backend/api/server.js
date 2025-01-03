@@ -12,7 +12,7 @@ const app = express();
 // Update CORS settings to allow requests from your frontend URL
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000', // Replace with your frontend's deployed URL
+    origin: 'https://surplus-serve-client.vercel.app/', // Replace with your frontend's deployed URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Add any methods you need
     credentials: true, // Allow cookies if needed
   })
