@@ -49,4 +49,4 @@ app.use((err, req, res, next) => {
 
 // Export the app and wrap it for serverless deployment
 module.exports = app;
-module.exports.handler = serverless(app); // Important for Vercel
+// module.exports.handler = serverless(app); // Important for Vercel
